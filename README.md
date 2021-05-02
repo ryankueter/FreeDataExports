@@ -93,7 +93,7 @@ orders.ColumnWidths("10", "10", "5", "10", "28.5", "15", "10");
 inventory.ColumnWidths("10", "10", "10", "10");
 
 // Optional - Reformat a data type
-workbook.Format(xDataType.DateTime24, @"m/d/yy\ h:mm;@");
+workbook.Format(DataType.DateTime24, @"m/d/yy\ h:mm;@");
 
 // Optional - Add a worksheet to display any data type conversion errors that may occur
 workbook.AddErrorsWorksheet();
@@ -182,8 +182,8 @@ orders.ColumnWidths(".8in", "1in", ".5in", "1in", "1.5in", "1in", "1in");
 inventory.ColumnWidths(".8in", "1in", ".8in", "1in");
 
 // Optional - Reformat the datatypes
-workbook.Format(oDataType.Decimal, "decimals=8");
-workbook.Format(oDataType.Currency, "symbol=$,language=en,country=US,decimals=2");
+workbook.Format(DataType.Decimal, "decimals=8");
+workbook.Format(DataType.Currency, "symbol=$,language=en,country=US,decimals=2");
 
 // Optional - Add a worksheet to display any data type conversion errors that may occur
 workbook.AddErrorsWorksheet();
