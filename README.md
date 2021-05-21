@@ -37,10 +37,10 @@ using FreeDataExports.Spreadsheets.XL2019;
 // Create a new workbook
 var workbook = new XLSX2019();
 
-// Add some metadata
+// Optional - Add some metadata
 workbook.CreatedBy = "Jane Doe";
 
-// Change the font
+// Optional - Change the font size
 workbook.FontSize = 11;
 
 // Create worksheets
@@ -95,7 +95,7 @@ inventory.ColumnWidths("10", "10", "10", "10");
 // Optional - Reformat a data type
 workbook.Format(DataType.DateTime24, @"m/d/yy\ h:mm;@");
 
-// Optional - Add a worksheet to display any data type conversion errors that may occur
+// Optional - Add a worksheet to display any data type conversion errors, only if they occur
 workbook.AddErrorsWorksheet();
 
 // Optional - Get the error manually
@@ -126,10 +126,10 @@ using FreeDataExports.Spreadsheets.Ods1_3;
 // Create a new workbook
 var workbook = new ODSv1_3();
 
-// Add some metadata
+// Optional - Add some metadata
 workbook.CreatedBy = "Jane Doe";
 
-// Change the font size
+// Optional - Change the font size
 workbook.FontSize = 11;
 
 // Create worksheets
@@ -185,7 +185,7 @@ inventory.ColumnWidths(".8in", "1in", ".8in", "1in");
 workbook.Format(DataType.Decimal, "decimals=8");
 workbook.Format(DataType.Currency, "symbol=$,language=en,country=US,decimals=2");
 
-// Optional - Add a worksheet to display any data type conversion errors that may occur
+// Optional - Add a worksheet to display any data type conversion errors, only if they occur
 workbook.AddErrorsWorksheet();
 
 // Optional - Get the error manually
