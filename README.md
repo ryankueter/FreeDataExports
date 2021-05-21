@@ -5,7 +5,7 @@ Updated: May, 2021
 
 ## About
 
-**Free Data Exports** is a free .NET library available from the [NuGet Package Manager](https://www.nuget.org/packages/FreeDataExports) and provides a simple and quick way to export data to a spreadsheet.  
+**Free Data Exports** is a free .NET library, available from the [NuGet Package Manager](https://www.nuget.org/packages/FreeDataExports), that provides a simple and quick way to export data to a spreadsheet.  
 
 ##### Supported file types:
 - Office Open XML Spreadsheet (**.xlsx**) v2019
@@ -95,7 +95,7 @@ inventory.ColumnWidths("10", "10", "10", "10");
 // Optional - Reformat a data type
 workbook.Format(DataType.DateTime24, @"m/d/yy\ h:mm;@");
 
-// Optional - Add a worksheet to display any data type conversion errors, only if they occur
+// Optional - Add a worksheet to display data type conversion errors, only if they occur
 workbook.AddErrorsWorksheet();
 
 // Optional - Get the error manually
@@ -185,7 +185,7 @@ inventory.ColumnWidths(".8in", "1in", ".8in", "1in");
 workbook.Format(DataType.Decimal, "decimals=8");
 workbook.Format(DataType.Currency, "symbol=$,language=en,country=US,decimals=2");
 
-// Optional - Add a worksheet to display any data type conversion errors, only if they occur
+// Optional - Add a worksheet to display data type conversion errors, only if they occur
 workbook.AddErrorsWorksheet();
 
 // Optional - Get the error manually
