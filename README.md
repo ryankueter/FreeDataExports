@@ -13,7 +13,7 @@ Updated: October, 2021
 - Comma-separated Values (**.csv**)
 
 ##### Targets:
-- .NET 5
+- .NET 5 (v1.0.14 and up)
 - .NET Standard 2.0 Library
 - Version Support
   - .NET 5 and Up
