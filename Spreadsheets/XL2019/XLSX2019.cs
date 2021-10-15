@@ -145,15 +145,15 @@ namespace FreeDataExports.Spreadsheets.XL2019
                     }
 
                     // Create the worksheets
-                    foreach (var w in Worksheets)
+                    for (int i = 0; i < Worksheets.Count; i++)
                     {
-                        var xlworksheetssheet1 = archive.CreateEntry($"xl/worksheets/sheet{w.Id}.xml");
+                        var xlworksheetssheet1 = archive.CreateEntry($"xl/worksheets/sheet{Worksheets[i].Id}.xml");
                         using (var entryStream = xlworksheetssheet1.Open())
                         {
                             using (var writer = new XmlTextWriter(entryStream, System.Text.Encoding.UTF8))
                             {
                                 writer.Formatting = Formatting.Indented;
-                                var doc = w.xl_worksheets_sheet(SharedStrings);
+                                var doc = Worksheets[i].xl_worksheets_sheet(SharedStrings);
                                 doc.WriteTo(writer);
                             }
                         }
@@ -257,11 +257,11 @@ namespace FreeDataExports.Spreadsheets.XL2019
         /// <param name="format">The data format</param>
         public void Format(DataType type, string format)
         {
-            foreach (var fc in FormatCodes)
+            for (int i = 0; i < FormatCodes.Count; i++)
             {
-                if (fc.type == (int)type)
+                if (FormatCodes[i].type == (int)type)
                 {
-                    fc.formatCode = format;
+                    FormatCodes[i].formatCode = format;
                 }
             }
         }
@@ -278,39 +278,41 @@ namespace FreeDataExports.Spreadsheets.XL2019
         {
             int worksheetId = 0;
             int cellindex = 0;
-            foreach (var w in Worksheets)
-            {
-                w.Id = ++worksheetId;
 
-                int r = 0;
-                foreach (var row in w.Rows)
+            // Iterate the worksheets
+            for (int i = 0; i < Worksheets.Count; i++)
+            {
+                Worksheets[i].Id = ++worksheetId;
+
+                // Iterate the rows
+                for (int r = 0; r < Worksheets[i].Rows.Count; r++)
                 {
-                    r++;
-                    int c = 0;
-                    foreach (var cell in row)
+                    // Iterate the cells
+                    for (int c = 0; c < Worksheets[i].Rows[r].Length; c++)
                     {
-                        c++;
-                        foreach (var f in FormatCodes)
+                        // Iterate the format codes
+                        for (int f = 0; f < FormatCodes.Count; f++)
                         {
-                            var dtype = (int)cell.DataType;
-                            if (dtype == f.type)
+                            var dtype = (int)Worksheets[i].Rows[r][c].DataType;
+                            if (dtype == FormatCodes[f].type)
                             {
-                                if (CellFormats.Contains(f) == false)
+                                if (CellFormats.Contains(FormatCodes[f]) == false)
                                 {
-                                    f.index = ++cellindex;
-                                    CellFormats.Add(f);
+                                    FormatCodes[f].index = ++cellindex;
+                                    CellFormats.Add(FormatCodes[f]);
                                 }
                             }
                         }
 
-                        if (String.IsNullOrEmpty(cell.Errors) == false)
+                        if (String.IsNullOrEmpty(Worksheets[i].Rows[r][c].Errors) == false)
                         {
-                            string msg = $"Error on '{w.Name}' in cell {Utilities.GetIndex(c)}{r}: {cell.Errors}";
+                            // Since the index starts at 0, we need to add 1
+                            string msg = $"Error on '{Worksheets[i].Name}' in cell {Utilities.GetIndex(c + 1)}{r + 1}: {Worksheets[i].Rows[r][c].Errors}";
                             Errors.Add(msg);
                         }
                     }
                 }
-                w.CellFormats = CellFormats;
+                Worksheets[i].CellFormats = CellFormats;
             }
 
             if (AddErrors == true)
@@ -328,9 +330,9 @@ namespace FreeDataExports.Spreadsheets.XL2019
         public string GetErrors()
         {
             var sb = new StringBuilder();
-            foreach (var s in Errors)
+            for (int i = 0; i < Errors.Count; i++)
             {
-                sb.AppendLine(s);
+                sb.AppendLine(Errors[i]);
             }
             return sb.ToString();
         }
@@ -351,9 +353,9 @@ namespace FreeDataExports.Spreadsheets.XL2019
             {
                 var e = new Worksheet("Errors");
                 e.Id = id;
-                foreach (var err in Errors)
+                for (int i = 0; i < Errors.Count; i++)
                 {
-                    e.AddRow(new Cell(err, DataType.String));
+                    e.AddRow(new Cell(Errors[i], DataType.String));
                 }
                 e.TabColor = "FFC00000";
                 Worksheets.Add(e);
@@ -372,9 +374,9 @@ namespace FreeDataExports.Spreadsheets.XL2019
             types.Add(new XElement("Default", new XAttribute("Extension", "rels"), new XAttribute("ContentType", "application/vnd.openxmlformats-package.relationships+xml")));
             types.Add(new XElement("Default", new XAttribute("Extension", "xml"), new XAttribute("ContentType", "application/xml")));
             types.Add(new XElement("Override", new XAttribute("PartName", "/xl/workbook.xml"), new XAttribute("ContentType", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml")));
-            foreach (var w in Worksheets)
+            for (int i = 0; i < Worksheets.Count; i++)
             {
-                types.Add(new XElement("Override", new XAttribute("PartName", $"/xl/worksheets/sheet{w.Id}.xml"), new XAttribute("ContentType", "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml")));
+                types.Add(new XElement("Override", new XAttribute("PartName", $"/xl/worksheets/sheet{Worksheets[i].Id}.xml"), new XAttribute("ContentType", "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml")));
             }
             types.Add(new XElement("Override", new XAttribute("PartName", "/xl/theme/theme1.xml"), new XAttribute("ContentType", "application/vnd.openxmlformats-officedocument.theme+xml")));
             types.Add(new XElement("Override", new XAttribute("PartName", "/xl/styles.xml"), new XAttribute("ContentType", "application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml")));
@@ -402,9 +404,9 @@ namespace FreeDataExports.Spreadsheets.XL2019
 
             var sheets = new XElement("sheets");
 
-            foreach (var w in Worksheets)
+            for (int i = 0; i < Worksheets.Count; i++)
             {
-                sheets.Add(new XElement("sheet", new XAttribute("name", w.Name), new XAttribute("sheetId", $"{w.Id}"), new XAttribute(r + "id", $"rId{w.Id}")));
+                sheets.Add(new XElement("sheet", new XAttribute("name", Worksheets[i].Name), new XAttribute("sheetId", $"{Worksheets[i].Id}"), new XAttribute(r + "id", $"rId{Worksheets[i].Id}")));
             }
 
             var workbook = new XElement("workbook",
@@ -452,16 +454,16 @@ namespace FreeDataExports.Spreadsheets.XL2019
             XNamespace x15 = "http://schemas.microsoft.com/office/spreadsheetml/2010/11/main";
 
             var numFmts = new XElement("numFmts", new XAttribute("count", $"{CellFormats.Count}"));
-            foreach (var f in CellFormats)
+            for (int i = 0; i < CellFormats.Count; i++)
             {
-                numFmts.Add(new XElement("numFmt", new XAttribute("numFmtId", f.numFmtId), new XAttribute("formatCode", f.formatCode)));
+                numFmts.Add(new XElement("numFmt", new XAttribute("numFmtId", CellFormats[i].numFmtId), new XAttribute("formatCode", CellFormats[i].formatCode)));
             }
 
             XElement cellXfs = new XElement("cellXfs", new XAttribute("count", $"{CellFormats.Count + 1}"));
             cellXfs.Add(new XElement("xf", new XAttribute("numFmtId", "0"), new XAttribute("fontId", "0"), new XAttribute("fillId", "0"), new XAttribute("borderId", "0"), new XAttribute("xfId", "0")));
-            foreach (var f in CellFormats)
+            for (int i = 0; i < CellFormats.Count; i++)
             {
-                cellXfs.Add(new XElement("xf", new XAttribute("numFmtId", f.numFmtId), new XAttribute("fontId", "0"), new XAttribute("fillId", "0"), new XAttribute("borderId", "0"), new XAttribute("xfId", "0"), new XAttribute("applyNumberFormat", "1")));
+                cellXfs.Add(new XElement("xf", new XAttribute("numFmtId", CellFormats[i].numFmtId), new XAttribute("fontId", "0"), new XAttribute("fillId", "0"), new XAttribute("borderId", "0"), new XAttribute("xfId", "0"), new XAttribute("applyNumberFormat", "1")));
             }
 
             return new XDocument(
@@ -517,21 +519,24 @@ namespace FreeDataExports.Spreadsheets.XL2019
             int Count = 0;
             int uniqueCount = 0;
 
-            foreach (var worksheet in Worksheets)
+            // Iterate the worksheets
+            for (int i = 0; i < Worksheets.Count; i++)
             {
                 // Add the rows
-                if (worksheet.Rows.Count > 0)
+                if (Worksheets[i].Rows.Count > 0)
                 {
-                    foreach (var row in worksheet.Rows)
+                    // Iterate the rows
+                    for (int r = 0; r < Worksheets[i].Rows.Count; r++)
                     {
-                        foreach (var cell in row)
+                        // Iterate the cells
+                        for (int c = 0; c < Worksheets[i].Rows[r].Length; c++)
                         {
-                            if (cell.DataType == DataType.String)
+                            if (Worksheets[i].Rows[r][c].DataType == DataType.String)
                             {
-                                if (SharedStrings.Contains(cell.Value) == false)
+                                if (SharedStrings.Contains(Worksheets[i].Rows[r][c].Value) == false)
                                 {
                                     // Add it to the list for tracking purposes
-                                    SharedStrings.Add(cell.Value, uniqueCount);
+                                    SharedStrings.Add(Worksheets[i].Rows[r][c].Value, uniqueCount);
                                     uniqueCount++;
                                     Count++;
                                 }
@@ -549,10 +554,24 @@ namespace FreeDataExports.Spreadsheets.XL2019
             sst.Add(new XAttribute("xmlns", xmlns));
             sst.Add(new XAttribute("Count", Count));
             sst.Add(new XAttribute("uniqueCount", uniqueCount));
-            foreach (DictionaryEntry s in SharedStrings)
+
+            ICollection KeyCollection = SharedStrings.Keys;
+            // ICollection ValuesCollection = SharedStrings.Values;
+
+            String[] keys = new String[SharedStrings.Count];
+            // String[] values = new String[SharedStrings.Count];
+
+            KeyCollection.CopyTo(keys, 0);
+            // ValuesCollection.CopyTo(values, 0);
+
+            for (int i = 0; i < SharedStrings.Count; i++)
             {
-                sst.Add(new XElement("si", new XElement("t", s.Key)));
+                sst.Add(new XElement("si", new XElement("t", keys[i])));
             }
+            //foreach (DictionaryEntry s in SharedStrings)
+            //{
+            //    sst.Add(new XElement("si", new XElement("t", s.Key)));
+            //}
 
             return new XDocument(new XDeclaration("1.0", "UTF-8", "yes"), sst);
         }
@@ -813,7 +832,7 @@ namespace FreeDataExports.Spreadsheets.XL2019
             relationships.Add(new XAttribute("xmlns", xmlns));
 
             int i = 1;
-            foreach (var w in Worksheets)
+            for (int n = 0; n < Worksheets.Count; n++)
             {
                 relationships.Add(new XElement("Relationship", new XAttribute("Id", $"rId{i}"), new XAttribute("Type", "http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet"), new XAttribute("Target", $"worksheets/sheet{i}.xml")));
                 i++;
@@ -864,9 +883,9 @@ namespace FreeDataExports.Spreadsheets.XL2019
 
 
             var vector = new XElement(vt + "vector", new XAttribute("size", Worksheets.Count), new XAttribute("baseType", "lpstr"));
-            foreach (var w in Worksheets)
+            for (int i = 0; i < Worksheets.Count; i++)
             {
-                vector.Add(new XElement(vt + "lpstr", w.Name));
+                vector.Add(new XElement(vt + "lpstr", Worksheets[i].Name));
             }
 
             var properties = new XElement("Properties",

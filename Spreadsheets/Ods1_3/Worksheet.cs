@@ -52,9 +52,9 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
         /// <param name="columnWidths">Column widths</param>
         public void ColumnWidths(params string[] columnWidths)
         {
-            foreach (var d in columnWidths)
+            for (int i = 0; i < columnWidths.Length; i++)
             {
-                _columnWidths.Add(d);
+                _columnWidths.Add(columnWidths[i]);
             }
         }
 

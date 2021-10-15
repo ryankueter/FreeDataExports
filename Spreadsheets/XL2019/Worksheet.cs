@@ -62,9 +62,9 @@ namespace FreeDataExports.Spreadsheets.XL2019
         /// <param name="columnWidths">Column Widths</param>
         public void ColumnWidths(params string[] columnWidths)
         {
-            foreach (var d in columnWidths)
+            for (int i = 0; i < columnWidths.Length; i++)
             {
-                _columnWidths.Add(d);
+                _columnWidths.Add(columnWidths[i]);
             }
         }
 
@@ -111,15 +111,15 @@ namespace FreeDataExports.Spreadsheets.XL2019
             {
                 var cols = new XElement("cols");
 
-                int i = 1; // Column range
-                foreach (var c in _columnWidths)
+                // Column range
+                for (int i = 0; i < _columnWidths.Count; i++)
                 {
+                    int w = i + 1;
                     cols.Add(new XElement("col",
-                                        new XAttribute("min", i.ToString()),
-                                        new XAttribute("max", i.ToString()),
-                                        new XAttribute("width", c),
-                                        new XAttribute("customWidth", "1")));
-                    i++;
+                                         new XAttribute("min", w.ToString()),
+                                         new XAttribute("max", w.ToString()),
+                                         new XAttribute("width", _columnWidths[i]),
+                                         new XAttribute("customWidth", "1")));
                 }
                 worksheet.Add(cols);
             }
@@ -196,41 +196,40 @@ namespace FreeDataExports.Spreadsheets.XL2019
                 int width = GetColumnCount();
 
                 // Add the rows
-                int r = 1; // Current row
-                foreach (var o in Rows)
+                for (int i = 0; i < Rows.Count; i++)
                 {
+                    int r = i + 1; // Current row
                     var row = new XElement("row", new XAttribute("r", r), new XAttribute("spans", $"{1}:{width}"), new XAttribute(x14ac + "dyDescent", "0.25"));
 
-                    int col = 1;
-                    // Foreach cell in the row
-                    foreach (var c in o)
+                    // Iterate the cells
+                    for (int c = 0; c < Rows[i].Length; c++)
                     {
+                        int col = c + 1;
+
                         // Strings, numbers, and booleans are different from other datatypes
-                        if (c.DataType == DataType.String)
+                        if (Rows[i][c].DataType == DataType.String)
                         {
-                            row.Add(new XElement("c", new XAttribute("r", $"{Utilities.GetIndex(col)}{r.ToString()}"), new XAttribute("t", "s"), new XElement("v", SharedStrings[c.Value])));
+                            row.Add(new XElement("c", new XAttribute("r", $"{Utilities.GetIndex(col)}{r.ToString()}"), new XAttribute("t", "s"), new XElement("v", SharedStrings[Rows[i][c].Value])));
                         }
-                        else if (c.DataType == DataType.Number)
+                        else if (Rows[i][c].DataType == DataType.Number)
                         {
-                            row.Add(new XElement("c", new XAttribute("r", $"{Utilities.GetIndex(col)}{r.ToString()}"), new XElement("v", c.Value)));
+                            row.Add(new XElement("c", new XAttribute("r", $"{Utilities.GetIndex(col)}{r.ToString()}"), new XElement("v", Rows[i][c].Value)));
                         }
-                        if (c.DataType == DataType.Boolean)
+                        if (Rows[i][c].DataType == DataType.Boolean)
                         {
-                            row.Add(new XElement("c", new XAttribute("r", $"{Utilities.GetIndex(col)}{r.ToString()}"), new XAttribute("t", "b"), new XElement("v", c.Value)));
+                            row.Add(new XElement("c", new XAttribute("r", $"{Utilities.GetIndex(col)}{r.ToString()}"), new XAttribute("t", "b"), new XElement("v", Rows[i][c].Value)));
                         }
                         else
                         {
-                            foreach (var n in CellFormats)
+                            for (int n = 0; n < CellFormats.Count; n++)
                             {
-                                if (n.type == (int)c.DataType)
+                                if (CellFormats[n].type == (int)Rows[i][c].DataType)
                                 {
-                                    row.Add(new XElement("c", new XAttribute("r", $"{Utilities.GetIndex(col)}{r.ToString()}"), new XAttribute("s", n.index.ToString()), new XElement("v", c.Value)));
+                                    row.Add(new XElement("c", new XAttribute("r", $"{Utilities.GetIndex(col)}{r.ToString()}"), new XAttribute("s", CellFormats[n].index.ToString()), new XElement("v", Rows[i][c].Value)));
                                 }
                             }
                         }
-                        col++;
                     }
-                    r++;
 
                     sheetData.Add(row);
                 }
@@ -242,9 +241,9 @@ namespace FreeDataExports.Spreadsheets.XL2019
         private int GetColumnHeaderCount()
         {
             int width = 0;
-            foreach (var w in Rows)
+            for (int i = 0; i < Rows.Count; i++)
             {
-                width = w.Length;
+                width = Rows[i].Length;
                 break;
             }
             return width;
@@ -253,9 +252,9 @@ namespace FreeDataExports.Spreadsheets.XL2019
         private int GetColumnCount()
         {
             int count = 0;
-            foreach (var r in Rows)
+            for (int i = 0; i < Rows.Count; i++)
             {
-                count = r.Length;
+                count = Rows[i].Length;
                 break;
             }
             return count;

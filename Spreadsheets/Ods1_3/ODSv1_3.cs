@@ -72,23 +72,23 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
                     }
                     break;
                 case DataType.Currency:
-                    foreach (var f in formats)
+                    for (int i = 0; i < formats.Length; i++)
                     {
-                        if (f.StartsWith("symbol=".ToLower()))
+                        if (formats[i].StartsWith("symbol=".ToLower()))
                         {
-                            CurrencySymbol = f.ToLower().Replace("symbol=", "");
+                            CurrencySymbol = formats[i].ToLower().Replace("symbol=", "");
                         }
-                        if (f.StartsWith("language=".ToLower()))
+                        if (formats[i].StartsWith("language=".ToLower()))
                         {
-                            CurrencyLanguage = f.ToLower().Replace("language=", "");
+                            CurrencyLanguage = formats[i].ToLower().Replace("language=", "");
                         }
-                        if (f.StartsWith("country=".ToLower()))
+                        if (formats[i].StartsWith("country=".ToLower()))
                         {
-                            CurrencyCountry = f.ToLower().Replace("country=", "").ToUpper();
+                            CurrencyCountry = formats[i].ToLower().Replace("country=", "").ToUpper();
                         }
-                        if (f.StartsWith("decimals=".ToLower()))
+                        if (formats[i].StartsWith("decimals=".ToLower()))
                         {
-                            CurrencyDecimals = Convert.ToInt32(f.ToLower().Replace("decimals=", ""));
+                            CurrencyDecimals = Convert.ToInt32(formats[i].ToLower().Replace("decimals=", ""));
                         }
                     }
                     break;
@@ -258,22 +258,20 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
         /// </summary>
         private void InitializeDocumentVariables()
         {
-            foreach (var w in Worksheets)
+            // Iterate the worksheets
+            for (int i = 0; i < Worksheets.Count; i++)
             {
-                int r = 0; // Row count
-                foreach (var row in w.Rows)
+                for (int r = 0; r < Worksheets[i].Rows.Count; r++)
                 {
-                    r++;
-                    int c = 0; // Cell count
-                    foreach (var cell in row)
+                    for (int c = 0; c < Worksheets[i].Rows[r].Length; c++)
                     {
-                        c++;
                         CellCount++;
 
                         // Add the errors
-                        if (String.IsNullOrEmpty(cell.Errors) == false)
+                        if (String.IsNullOrEmpty(Worksheets[i].Rows[r][c].Errors) == false)
                         {
-                            string msg = $"Error on '{w.Name}' in cell {Utilities.GetIndex(c)}{r}: {cell.Errors}";
+                            // Add one to the index
+                            string msg = $"Error on '{Worksheets[i].Name}' in cell {Utilities.GetIndex(c + 1)}{r + 1}: {Worksheets[i].Rows[r][c].Errors}";
                             Errors.Add(msg);
                         }
                     }
@@ -295,9 +293,9 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
         public string GetErrors()
         {
             var sb = new StringBuilder();
-            foreach (var s in Errors)
+            for (int i = 0; i < Errors.Count; i++)
             {
-                sb.AppendLine(s);
+                sb.AppendLine(Errors[i]);
             }
             return sb.ToString();
         }
@@ -317,9 +315,9 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
             if (Errors.Count > 0)
             {
                 var e = new Worksheet("Errors");
-                foreach (var err in Errors)
+                for (int i = 0; i < Errors.Count; i++)
                 {
-                    e.AddRow(new Cell(err, DataType.String));
+                    e.AddRow(new Cell(Errors[i], DataType.String));
                 }
                 e.TabColor = "#FF3838";
                 Worksheets.Add(e);
@@ -343,15 +341,15 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
 
             int i = 1;
             string ActiveTable = String.Empty;
-            foreach (var s in Worksheets)
+            for (int n = 0; n < Worksheets.Count; n++)
             {
                 if (i == 1)
                 {
-                    ActiveTable = s.Name;
+                    ActiveTable = Worksheets[n].Name;
                 }
-                config_item_map_named.Add(s.Get_config_item_map_entry());
+                config_item_map_named.Add(Worksheets[n].Get_config_item_map_entry());
 
-                config_item_map_named2.Add(new XElement(config + "config-item-map-entry", new XAttribute(config + "name", s.Name),
+                config_item_map_named2.Add(new XElement(config + "config-item-map-entry", new XAttribute(config + "name", Worksheets[n].Name),
                     new XElement(config + "config-item", new XAttribute(config + "name", "CodeName"), new XAttribute(config + "type", "string"), $"Sheet{i}")));
 
                 i++;
@@ -843,31 +841,28 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
             }
             else
             {
-                int ColIndex1 = 1;
-                int WorksheetIndex = 0;
                 var dts = new List<DataDefinition>();
                 var table_styles = new List<XElement>();
                 var number_styles = new List<XElement>();
                 var cell_styles = new List<XElement>();
-                foreach (var w in Worksheets)
-                {
-                    WorksheetIndex++;
 
+                // Iterate the worksheets
+                for (int i = 0; i < Worksheets.Count; i++)
+                {
                     // Create the table element
-                    var sheet_table = new XElement(table + "table", new XAttribute(table + "name", w.Name), new XAttribute(table + "style-name", $"ta{WorksheetIndex}"));
+                    var sheet_table = new XElement(table + "table", new XAttribute(table + "name", Worksheets[i].Name), new XAttribute(table + "style-name", $"ta{i + 1}"));
 
                     // Add the styles
-                    if (w.GetColumnCount() > 0)
+                    if (Worksheets[i].GetColumnCount() > 0)
                     {
-                        foreach (var c in w.GetColumnWidths())
+                        for (int col = 0; col < Worksheets[i].GetColumnWidths().Count; col++)
                         {
                             // Add the columns to the styles
-                            table_styles.Add(new XElement(style + "style", new XAttribute(style + "name", $"co{ColIndex1}"), new XAttribute(style + "family", "table-column"),
-                                     new XElement(style + "table-column-properties", new XAttribute(fo + "break-before", "auto"), new XAttribute(style + "column-width", c))));
+                            table_styles.Add(new XElement(style + "style", new XAttribute(style + "name", $"co{col + 1}"), new XAttribute(style + "family", "table-column"),
+                                     new XElement(style + "table-column-properties", new XAttribute(fo + "break-before", "auto"), new XAttribute(style + "column-width", Worksheets[i].GetColumnWidths()[col]))));
 
                             // Add the columns to the worksheet table
-                            sheet_table.Add(new XElement(table + "table-column", new XAttribute(table + "style-name", $"co{ColIndex1}"), new XAttribute(table + "default-cell-style-name", "Default")));
-                            ColIndex1++;
+                            sheet_table.Add(new XElement(table + "table-column", new XAttribute(table + "style-name", $"co{col + 1}"), new XAttribute(table + "default-cell-style-name", "Default")));
                         }
                     }
 
@@ -878,14 +873,14 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
                     }
 
                     // Add the tab (worksheet) styles
-                    if (String.IsNullOrEmpty(w.TabColor) == false)
+                    if (String.IsNullOrEmpty(Worksheets[i].TabColor) == false)
                     {
-                        table_styles.Add(new XElement(style + "style", new XAttribute(style + "name", $"ta{WorksheetIndex}"), new XAttribute(style + "family", "table"), new XAttribute(style + "master-page-name", "Default"),
-                            new XElement(style + "table-properties", new XAttribute(table + "display", "true"), new XAttribute(style + "writing-mode", "lr-tb"), new XAttribute(table + "tab-color", w.TabColor))));
+                        table_styles.Add(new XElement(style + "style", new XAttribute(style + "name", $"ta{i + 1}"), new XAttribute(style + "family", "table"), new XAttribute(style + "master-page-name", "Default"),
+                            new XElement(style + "table-properties", new XAttribute(table + "display", "true"), new XAttribute(style + "writing-mode", "lr-tb"), new XAttribute(table + "tab-color", Worksheets[i].TabColor))));
                     }
                     else
                     {
-                        table_styles.Add(new XElement(style + "style", new XAttribute(style + "name", $"ta{WorksheetIndex}"), new XAttribute(style + "family", "table"), new XAttribute(style + "master-page-name", "Default"),
+                        table_styles.Add(new XElement(style + "style", new XAttribute(style + "name", $"ta{i + 1}"), new XAttribute(style + "family", "table"), new XAttribute(style + "master-page-name", "Default"),
                                 new XElement(style + "table-properties", new XAttribute(table + "display", "true"), new XAttribute(style + "writing-mode", "lr-tb"))));
                     }
 
@@ -893,25 +888,27 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
                     if (IsFirstRun == true)
                     {
                         var _type = GetDataType(DataType.String);
-                        _type.Worksheet = w.Name;
+                        _type.Worksheet = Worksheets[i].Name;
                         dts.Add(_type);
                     }
                     
 
                     // Get the cell datatypes
-                    foreach (var row in w.Rows)
+                    // Iterate the rows
+                    for (int r = 0; r < Worksheets[i].Rows.Count; r++)
                     {
                         var sheet_row = new XElement(table + "table-row", new XAttribute(table + "style-name", "ro1"));
 
-                        foreach (var cell in row)
+                        // Iterate the cells
+                        for (int c = 0; c < Worksheets[i].Rows[r].Length; c++)
                         {
-                            var type = GetDataType(cell.DataType);
+                            var type = GetDataType(Worksheets[i].Rows[r][c].DataType);
                             if (type != null)
                             {
                                 bool InList = false;
-                                foreach (var t in dts)
+                                for (int t = 0; t < dts.Count; t++)
                                 {
-                                    if ((type.DataType == t.DataType) || type.DataType == DataType.String)
+                                    if ((type.DataType == dts[t].DataType) || type.DataType == DataType.String)
                                     {
                                         InList = true;
                                     }
@@ -919,7 +916,7 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
 
                                 if (InList == false)
                                 {
-                                    type.Worksheet = w.Name;
+                                    type.Worksheet = Worksheets[i].Name;
                                     dts.Add(type);
                                 }
                             }
@@ -927,11 +924,11 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
                             // Formated numeric value
                             if (type != null)
                             {
-                                sheet_row.Add(GetTableValues(cell, type.Index));
+                                sheet_row.Add(GetTableValues(Worksheets[i].Rows[r][c], type.Index));
                             }
                             else
                             {
-                                sheet_row.Add(GetTableValues(cell, 0));
+                                sheet_row.Add(GetTableValues(Worksheets[i].Rows[r][c], 0));
                             }
                         }
 
@@ -946,33 +943,33 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
                 var l = new List<DataType>();
                 if (dts.Count > 0)
                 {
-                    foreach (var x in dts)
+                    for (int i = 0; i < dts.Count; i++)
                     {
-                        if (l.Contains(x.DataType) == false)
+                        if (l.Contains(dts[i].DataType) == false)
                         {
-                            cell_styles.Add(new XElement(style + "style", new XAttribute(style + "name", $"ce{x.Index}"), new XAttribute(style + "family", "table-cell"), new XAttribute(style + "parent-style-name", "Default"), new XAttribute(style + "data-style-name", x.Name),
+                            cell_styles.Add(new XElement(style + "style", new XAttribute(style + "name", $"ce{dts[i].Index}"), new XAttribute(style + "family", "table-cell"), new XAttribute(style + "parent-style-name", "Default"), new XAttribute(style + "data-style-name", dts[i].Name),
                                         new XElement(style + "text-properties", new XAttribute(fo + "font-size", $"{FontSize}pt"), new XAttribute(style + "font-size-asian", $"{FontSize}pt"), new XAttribute(style + "font-size-complex", $"{FontSize}pt"))));
 
-                            number_styles.Add(x.Element);
-                            l.Add(x.DataType);
+                            number_styles.Add(dts[i].Element);
+                            l.Add(dts[i].DataType);
                         }
                     }
                 }
 
                 // Add the styles
-                foreach (var tbl in table_styles)
+                for (int i = 0; i < table_styles.Count; i++)
                 {
-                    automatic_styles.Add(tbl);
+                    automatic_styles.Add(table_styles[i]);
                 }
-                foreach (var tbl in number_styles)
+                for (int i = 0; i < number_styles.Count; i++)
                 {
-                    automatic_styles.Add(tbl);
+                    automatic_styles.Add(number_styles[i]);
                 }
-                foreach (var tbl in cell_styles)
+                for (int i = 0; i < cell_styles.Count; i++)
                 {
-                    automatic_styles.Add(tbl);
+                    automatic_styles.Add(cell_styles[i]);
                 }
-            }           
+            }       
 
             var content = new XElement(office + "document-content",
                     new XAttribute(XNamespace.Xmlns + "meta", meta),
