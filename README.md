@@ -12,8 +12,10 @@ Updated: October, 2021
 - Open Document File (ODF) Spreadsheet (**.ods**) v1.3
 - Comma-separated Values (**.csv**)
 
-##### Targets:
-- .NET 5 (v1.0.14 and up)
+##### Target (v1.0.14 and up):
+- .NET 5
+
+##### Target (v1.0.13 and below):
 - .NET Standard 2.0 Library
 - Version Support
   - .NET 5 and Up
