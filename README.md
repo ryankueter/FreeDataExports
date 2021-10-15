@@ -12,7 +12,7 @@ Updated: October, 2021
 - Open Document File (ODF) Spreadsheet (**.ods**) v1.3
 - Comma-separated Values (**.csv**)
 
-##### Target (v1.0.14 and up):
+##### Target (v1.0.14):
 - .NET 5
 
 ##### Target (v1.0.13 and below):
