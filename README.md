@@ -1,7 +1,7 @@
 # Free Data Exports (.NET)
 
 Author: Ryan Kueter  
-Updated: October, 2021
+Updated: December, 2021
 
 ## About
 
@@ -12,21 +12,20 @@ Updated: October, 2021
 - Open Document File (ODF) Spreadsheet (**.ods**) v1.3
 - Comma-separated Values (**.csv**)
 
-##### Target:
-- .NET 5
+##### Targets:
+- .NET 6
+- .NET Standard 2.1
 
-##### Target (v1.0.13 and below):
-- .NET Standard 2.0 Library
-- Version Support
-  - .NET 5 and Up
-  - Core 2 - 3.1
-  - Framework 4.6.1 - 4.8
-  - Mono 5.4, 6.4
-  - Xamarin.iOS 10.14, 12.16
-  - Xamarin.Android 8.0, 10.0
-  - Universal Windows Platform 10.0.16299
-  - Unity 2018.1
-  - https://dotnet.microsoft.com/platform/dotnet-standard#versions  
+##### Version Support
+- .NET 6
+- Core 2 - 3.1
+- Framework 4.6.1 - 4.8
+- Mono 5.4, 6.4
+- Xamarin.iOS 10.14, 12.16
+- Xamarin.Android 8.0, 10.0
+- Universal Windows Platform 10.0.16299
+- Unity 2018.1
+- https://dotnet.microsoft.com/platform/dotnet-standard#versions  
 
 ## How to Create an XLSX (2019) File
 

@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>netstandard2.1;net6.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.18</Version>
+    <Version>1.0.19</Version>
     <Authors>Ryan Kueter</Authors>
     <Company>Ryan Kueter</Company>
     <Description>A .NET library that allows you to export your data to a spreadsheet, including .xlsx (2019), .ods (1.3), and .csv files.</Description>
@@ -11,10 +11,10 @@
     <PackageIcon>Icon.jpg</PackageIcon>
     <PackageIconUrl />
     <RepositoryUrl>https://github.com/ryankueter/FreeDataExports</RepositoryUrl>
-    <PackageReleaseNotes>Minor code optimizations (i.e., faster iterators). Performance improvements are really not necessary for this projects, it's already super fast.</PackageReleaseNotes>
+    <PackageReleaseNotes>A NuGet package for targeting multiple frameworks.</PackageReleaseNotes>
     <PackageTags />
-    <AssemblyVersion>1.0.18.0</AssemblyVersion>
-    <FileVersion>1.0.18.0</FileVersion>
+    <AssemblyVersion>1.0.19.0</AssemblyVersion>
+    <FileVersion>1.0.19.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
