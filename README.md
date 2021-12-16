@@ -1,7 +1,11 @@
 # Free Data Exports (.NET)
 
 Author: Ryan Kueter  
+<<<<<<< HEAD
 Updated: December, 2021
+=======
+Updated: October, 2021
+>>>>>>> d8cd4939011159f0971b145fd3c424c99dc2e33c
 
 ## About
 
@@ -13,6 +17,7 @@ Updated: December, 2021
 - Comma-separated Values (**.csv**)
 
 ##### Targets:
+<<<<<<< HEAD
 - .NET 6
 - .NET Standard 2.1
 
@@ -26,6 +31,20 @@ Updated: December, 2021
 - Universal Windows Platform 10.0.16299
 - Unity 2018.1
 - https://dotnet.microsoft.com/platform/dotnet-standard#versions  
+=======
+- .NET 5 (v1.0.14 and up)
+- .NET Standard 2.0 Library
+- Version Support
+  - .NET 5 and Up
+  - Core 2 - 3.1
+  - Framework 4.6.1 - 4.8
+  - Mono 5.4, 6.4
+  - Xamarin.iOS 10.14, 12.16
+  - Xamarin.Android 8.0, 10.0
+  - Universal Windows Platform 10.0.16299
+  - Unity 2018.1
+  - https://dotnet.microsoft.com/platform/dotnet-standard#versions  
+>>>>>>> d8cd4939011159f0971b145fd3c424c99dc2e33c
 
 ## How to Create an XLSX (2019) File
 
