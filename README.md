@@ -14,7 +14,7 @@ Updated: December, 2021
 
 ##### Targets:
 - .NET 6
-- .NET Standard 2.1
+- .NET Standard 2.0
 
 ##### Version Support:
 - .NET 6
