@@ -16,7 +16,7 @@ Updated: December, 2021
 - .NET 6
 - .NET Standard 2.1
 
-##### Version Support
+##### Version Support:
 - .NET 6
 - Core 2 - 3.1
 - Framework 4.6.1 - 4.8
