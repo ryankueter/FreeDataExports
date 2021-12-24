@@ -249,7 +249,7 @@ If you want to dependency inject...
 using FreeDataExports;
 
 // Register the service
-services.AddTransient<IDataExport, DataExport>();
+services.AddScoped<IDataExport, DataExport>();
 
 // Create a workbook
 var workbook = _dataExport.CreateXLSX2019();
