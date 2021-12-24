@@ -53,14 +53,16 @@ namespace FreeDataExports.Spreadsheets.XL2019
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public async Task SaveAsync(string path)
+        public Task SaveAsync(string path)
         {
-            var bytes = await GetBytesAsync();
-            using (FileStream SourceStream = File.Open(path, FileMode.Create))
-            {
-                SourceStream.Seek(0, SeekOrigin.End);
-                await SourceStream.WriteAsync(bytes, 0, bytes.Length);
-            }
+            return Task.Run(() => {
+                var bytes = GetBytes();
+                using (FileStream SourceStream = File.Open(path, FileMode.Create))
+                {
+                    SourceStream.Seek(0, SeekOrigin.End);
+                    SourceStream.Write(bytes, 0, bytes.Length);
+                }
+            });
         }
 
         /// <summary>
@@ -77,9 +79,11 @@ namespace FreeDataExports.Spreadsheets.XL2019
         /// An asynchronous GetBytes method
         /// </summary>
         /// <returns></returns>
-        public async Task<byte[]> GetBytesAsync()
+        public Task<byte[]> GetBytesAsync()
         {
-            return await Task.FromResult(GetBytes());
+            return Task.Run(() => {
+                return GetBytes();
+            });
         }
 
         /// <summary>

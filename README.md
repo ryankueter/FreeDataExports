@@ -17,7 +17,7 @@ Updated: December, 2021
 - .NET Standard 2.0
 
 ##### Version Support:
-- .NET 6
+- .NET 5, .NET 6
 - Core 2 - 3.1
 - Framework 4.6.1 - 4.8
 - Mono 5.4, 6.4
