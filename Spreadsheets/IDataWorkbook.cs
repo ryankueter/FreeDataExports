@@ -5,7 +5,7 @@
  */
 using System.Threading.Tasks;
 
-namespace FreeDataExports.Spreadsheets
+namespace FreeDataExports
 {
     public interface IDataWorkbook
     {

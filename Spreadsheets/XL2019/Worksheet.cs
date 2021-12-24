@@ -241,9 +241,9 @@ namespace FreeDataExports.Spreadsheets.XL2019
         private int GetColumnHeaderCount()
         {
             int width = 0;
-            for (int i = 0; i < Rows.Count; i++)
+            foreach (IDataCell[] dc in Rows)
             {
-                width = Rows[i].Length;
+                width = dc.Length;
                 break;
             }
             return width;
@@ -252,9 +252,9 @@ namespace FreeDataExports.Spreadsheets.XL2019
         private int GetColumnCount()
         {
             int count = 0;
-            for (int i = 0; i < Rows.Count; i++)
+            foreach (IDataCell[] dc in Rows)
             {
-                count = Rows[i].Length;
+                count = dc.Length;
                 break;
             }
             return count;

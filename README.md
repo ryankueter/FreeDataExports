@@ -26,18 +26,18 @@ Updated: December, 2021
 - Universal Windows Platform 10.0.16299
 - Unity 2018.1
 - https://dotnet.microsoft.com/platform/dotnet-standard#versions  
+   
 
 ## How to Create an XLSX (2019) File
 
 An example of how to create a new .xlsx workbook in C#:
 
 ```csharp
-// Namespaces
-using FreeDataExports.Spreadsheets;
-using FreeDataExports.Spreadsheets.XL2019;
+// Namespace
+using FreeDataExports;
 
 // Create a new workbook
-var workbook = new XLSX2019();
+var workbook = new DataExport().CreateXLSX2019();
 
 // Optional - Add some metadata
 workbook.CreatedBy = "Jane Doe";
@@ -115,6 +115,7 @@ workbook.Save(path);
 // Asynchronous save method
 await workbook.SaveAsync(path);
 ```  
+   
 
 ## How to Create an ODS (1.3) File
 
@@ -122,11 +123,10 @@ The following code block is an example of how to create a new .ods workbook in C
 
 ```csharp
 // Namespaces
-using FreeDataExports.Spreadsheets;
-using FreeDataExports.Spreadsheets.Ods1_3;
+using FreeDataExports;
 
 // Create a new workbook
-var workbook = new ODSv1_3();
+var workbook = new DataExport().CreateODSv1_3();
 
 // Optional - Add some metadata
 workbook.CreatedBy = "Jane Doe";
@@ -205,6 +205,7 @@ workbook.Save(path);
 // Asynchronous save method
 await workbook.SaveAsync(path);
 ```  
+   
 
 ## How to Create a CSV File
 
@@ -212,10 +213,10 @@ An example of how to create a new .csv file in C#:
 
 ```csharp
 // Namespace
-using FreeDataExports.Delimited;
+using FreeDataExports;
 
 // Create a new csv file
-var csv = new Csv();
+var csv = new DataExport().CreateCsv();
 
 // Add a header row
 csv.AddRow("OrderId", "Item", "Units", "Price", "OrderDate", "SalesAssoc", "Delivered");
@@ -237,7 +238,23 @@ csv.Save(path);
 
 // Asynchronous save method
 await csv.SaveAsync(path);
+```
+   
+
+## Dependency Injection
+
+If you want to dependency inject...
+
+```csharp
+using FreeDataExports;
+
+// Register the service
+services.AddTransient<IDataExport, DataExport>();
+
+// Create a workbook
+var workbook = _dataExport.CreateXLSX2019();
 ```  
+   
 
 ## Formating Options
 
@@ -262,6 +279,7 @@ ODS files do not contain formatting strings like those above. So, the following 
 - Currency: ```"symbol=$,language=en,country=US,decimals=2"```
   - Alternatively: ```"decimals=2"```
 - Decimal: ```"decimals=4"```
+   
 
 ## Data Types
 
