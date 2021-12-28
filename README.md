@@ -243,7 +243,7 @@ await csv.SaveAsync(path);
 
 ## Dependency Injection
 
-If you want to dependency inject...
+Dependency injection is not required to use this library and this feature is not yet fully implemented. But if you want to include dependency injection...
 
 ```csharp
 using FreeDataExports;
