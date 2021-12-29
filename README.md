@@ -238,24 +238,8 @@ csv.Save(path);
 
 // Asynchronous save method
 await csv.SaveAsync(path);
-```
-   
-
-## Dependency Injection
-
-Dependency injection is not required to use this library and this feature is not yet fully implemented. But if you want to include dependency injection...
-
-```csharp
-using FreeDataExports;
-
-// Register the service
-services.AddScoped<IDataExport, DataExport>();
-
-// Create a workbook
-var workbook = _dataExport.CreateXLSX2019();
 ```  
    
-
 ## Formating Options
 
 #### XLSX Formatting Strings
