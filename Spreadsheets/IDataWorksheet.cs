@@ -8,8 +8,8 @@ namespace FreeDataExports
     public interface IDataWorksheet
     {
         string Name { get; }
-        void AddRow(params IDataCell[] c);
-        IDataCell AddCell(object Data, DataType Type);
+        IDataWorksheet AddRow();
+        IDataWorksheet AddCell(object Data, DataType Type);
         string TabColor { get; set; }
         void ColumnWidths(params string[] columnWidths);
     }

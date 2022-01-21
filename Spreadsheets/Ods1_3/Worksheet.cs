@@ -16,36 +16,38 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
         public Worksheet(string name)
         {
             Name = name;
-            Rows = new List<IDataCell[]>();
+            Rows = new List<List<IDataCell>>();
+            CurrentRow = new List<IDataCell>();
             _columnWidths = new List<string>();
         }
         public string Name { get; } // Worksheet name
         public string TabColor { get; set; } // Worksheet tab color
 
-        // A list of rows and cells
-        internal List<IDataCell[]> Rows { get; set; }
-        /// <summary>
-        /// A method for adding rows
-        /// </summary>
-        /// <param name="c">Cells</param>
-        public void AddRow(params IDataCell[] c)
+        // Stores a list of rows
+        internal List<List<IDataCell>> Rows { get; set; }
+
+        // Stores a count of rows for better performance
+        internal int RowCount { get; set; }
+
+        // Stores the current row being loaded
+        internal List<IDataCell> CurrentRow { get; set; }
+        public IDataWorksheet AddRow()
         {
-            Rows.Add(c);
+            CurrentRow = new List<IDataCell>();
+            Rows.Add(CurrentRow);
+            RowCount++;
+            return this;
         }
 
-        /// <summary>
-        /// Add a cell
-        /// </summary>
-        /// <param name="Data">The cell data.</param>
-        /// <param name="Type">The cell's datatype.</param>
-        /// <returns>Cell</returns>
-        public IDataCell AddCell(object Data, DataType Type)
+        public IDataWorksheet AddCell(object Data, DataType Type)
         {
-            return new Cell(Data, Type);
+            CurrentRow.Add(new Cell(Data, Type));
+            return this;
         }
 
         // A list of column widths
         private List<string> _columnWidths { get; set; }
+
         /// <summary>
         /// A method for adding column widths
         /// </summary>

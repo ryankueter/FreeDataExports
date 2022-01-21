@@ -265,9 +265,9 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
             // Iterate the worksheets
             for (int i = 0; i < Worksheets.Count; i++)
             {
-                for (int r = 0; r < Worksheets[i].Rows.Count; r++)
+                for (int r = 0; r < Worksheets[i].RowCount; r++)
                 {
-                    for (int c = 0; c < Worksheets[i].Rows[r].Length; c++)
+                    for (int c = 0; c < Worksheets[i].Rows[r].Count; c++)
                     {
                         CellCount++;
 
@@ -321,7 +321,7 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
                 var e = new Worksheet("Errors");
                 for (int i = 0; i < Errors.Count; i++)
                 {
-                    e.AddRow(new Cell(Errors[i], DataType.String));
+                    e.AddRow().AddCell(Errors[i], DataType.String);
                 }
                 e.TabColor = "#FF3838";
                 Worksheets.Add(e);
@@ -896,15 +896,14 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
                         dts.Add(_type);
                     }
                     
-
                     // Get the cell datatypes
                     // Iterate the rows
-                    for (int r = 0; r < Worksheets[i].Rows.Count; r++)
+                    for (int r = 0; r < Worksheets[i].RowCount; r++)
                     {
                         var sheet_row = new XElement(table + "table-row", new XAttribute(table + "style-name", "ro1"));
 
                         // Iterate the cells
-                        for (int c = 0; c < Worksheets[i].Rows[r].Length; c++)
+                        for (int c = 0; c < Worksheets[i].Rows[r].Count; c++)
                         {
                             var type = GetDataType(Worksheets[i].Rows[r][c].DataType);
                             if (type != null)

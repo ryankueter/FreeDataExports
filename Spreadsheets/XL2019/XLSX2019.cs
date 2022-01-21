@@ -289,10 +289,10 @@ namespace FreeDataExports.Spreadsheets.XL2019
                 Worksheets[i].Id = ++worksheetId;
 
                 // Iterate the rows
-                for (int r = 0; r < Worksheets[i].Rows.Count; r++)
+                for (int r = 0; r < Worksheets[i].RowCount; r++)
                 {
                     // Iterate the cells
-                    for (int c = 0; c < Worksheets[i].Rows[r].Length; c++)
+                    for (int c = 0; c < Worksheets[i].Rows[r].Count; c++)
                     {
                         // Iterate the format codes
                         for (int f = 0; f < FormatCodes.Count; f++)
@@ -359,7 +359,7 @@ namespace FreeDataExports.Spreadsheets.XL2019
                 e.Id = id;
                 for (int i = 0; i < Errors.Count; i++)
                 {
-                    e.AddRow(new Cell(Errors[i], DataType.String));
+                    e.AddRow().AddCell(Errors[i], DataType.String);
                 }
                 e.TabColor = "FFC00000";
                 Worksheets.Add(e);
@@ -527,13 +527,13 @@ namespace FreeDataExports.Spreadsheets.XL2019
             for (int i = 0; i < Worksheets.Count; i++)
             {
                 // Add the rows
-                if (Worksheets[i].Rows.Count > 0)
+                if (Worksheets[i].RowCount > 0)
                 {
                     // Iterate the rows
-                    for (int r = 0; r < Worksheets[i].Rows.Count; r++)
+                    for (int r = 0; r < Worksheets[i].RowCount; r++)
                     {
                         // Iterate the cells
-                        for (int c = 0; c < Worksheets[i].Rows[r].Length; c++)
+                        for (int c = 0; c < Worksheets[i].Rows[r].Count; c++)
                         {
                             if (Worksheets[i].Rows[r][c].DataType == DataType.String)
                             {

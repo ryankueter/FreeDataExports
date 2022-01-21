@@ -18,8 +18,9 @@ namespace FreeDataExports.Spreadsheets.XL2019
         public Worksheet(string name)
         {
             Name = name;
-            Rows = new List<IDataCell[]>();
+            Rows = new List<List<IDataCell>>();
             SharedStrings = new OrderedDictionary();
+            CurrentRow = new List<IDataCell>();
             _columnWidths = new List<string>();
         }
         internal int Id { get; set; } // Worksheet Id
@@ -33,29 +34,30 @@ namespace FreeDataExports.Spreadsheets.XL2019
         internal List<DataDefinition> CellFormats = new List<DataDefinition>();
 
         // Stores a list of rows
-        internal List<IDataCell[]> Rows { get; set; }
-        /// <summary>
-        /// A method for adding cells to a row
-        /// </summary>
-        /// <param name="c">Cells</param>
-        public void AddRow(params IDataCell[] c)
+        internal List<List<IDataCell>> Rows { get; set; }
+
+        // Stores a count of rows for better performance
+        internal int RowCount { get; set; }
+        
+        // Stores the current row being loaded
+        internal List<IDataCell> CurrentRow { get; set; }
+        public IDataWorksheet AddRow()
         {
-            Rows.Add(c);
+            CurrentRow = new List<IDataCell>();
+            Rows.Add(CurrentRow);
+            RowCount++;
+            return this;
         }
 
-        /// <summary>
-        /// Add a cell
-        /// </summary>
-        /// <param name="Data">The cell data.</param>
-        /// <param name="Type">The cell's datatype.</param>
-        /// <returns>Cell</returns>
-        public IDataCell AddCell(object Data, DataType Type)
+        public IDataWorksheet AddCell(object Data, DataType Type)
         {
-            return new Cell(Data, Type);
+            CurrentRow.Add(new Cell(Data, Type));
+            return this;
         }
 
         // Stores a list of column widths
         private List<string> _columnWidths { get; set; }
+
         /// <summary>
         /// A method for supplying column widths
         /// </summary>
@@ -151,10 +153,10 @@ namespace FreeDataExports.Spreadsheets.XL2019
         // Gets the cell ranges
         private XElement GetDimension()
         {
-            if (Rows.Count > 0)
+            if (RowCount > 0)
             {
                 int width = GetColumnCount();
-                int depth = GetRowCount();
+                int depth = RowCount;
                 string columnRow = Utilities.GetIndex(width) + depth.ToString();
 
                 if (String.IsNullOrEmpty(columnRow) == false)
@@ -172,7 +174,7 @@ namespace FreeDataExports.Spreadsheets.XL2019
         /// <returns></returns>
         private XElement GetSheetData()
         {
-            int depth = GetRowCount();
+            int depth = RowCount;
             if (depth == 0)
             {
                 return new XElement("sheetData");
@@ -191,18 +193,18 @@ namespace FreeDataExports.Spreadsheets.XL2019
         /// <returns></returns>
         private XElement GetRows(XElement sheetData)
         {
-            if (Rows.Count > 0)
+            if (RowCount > 0)
             {
                 int width = GetColumnCount();
 
                 // Add the rows
-                for (int i = 0; i < Rows.Count; i++)
+                for (int i = 0; i < RowCount; i++)
                 {
                     int r = i + 1; // Current row
                     var row = new XElement("row", new XAttribute("r", r), new XAttribute("spans", $"{1}:{width}"), new XAttribute(x14ac + "dyDescent", "0.25"));
 
                     // Iterate the cells
-                    for (int c = 0; c < Rows[i].Length; c++)
+                    for (int c = 0; c < Rows[i].Count; c++)
                     {
                         int col = c + 1;
 
@@ -241,9 +243,9 @@ namespace FreeDataExports.Spreadsheets.XL2019
         private int GetColumnHeaderCount()
         {
             int width = 0;
-            foreach (IDataCell[] dc in Rows)
+            foreach (List<IDataCell> dc in Rows)
             {
-                width = dc.Length;
+                width = dc.Count;
                 break;
             }
             return width;
@@ -252,17 +254,12 @@ namespace FreeDataExports.Spreadsheets.XL2019
         private int GetColumnCount()
         {
             int count = 0;
-            foreach (IDataCell[] dc in Rows)
+            foreach (List<IDataCell> dc in Rows)
             {
-                count = dc.Length;
+                count = dc.Count;
                 break;
             }
             return count;
-        }
-
-        private int GetRowCount()
-        { 
-            return Rows.Count;
         }
     }
 }

@@ -1,7 +1,7 @@
 # Free Data Exports (.NET)
 
 Author: Ryan Kueter  
-Updated: December, 2021
+Updated: January, 2022
 
 ## About
 
@@ -49,41 +49,44 @@ workbook.FontSize = 11;
 var orders = workbook.AddWorksheet("Orders");
 var inventory = workbook.AddWorksheet("Inventory");
 
-// Add some data to the worksheets
-orders.AddRow(
-	orders.AddCell("OrderId", DataType.String),
-	orders.AddCell("Item", DataType.String),
-	orders.AddCell("Units", DataType.String),
-	orders.AddCell("Price", DataType.String),
-	orders.AddCell("OrderDate", DataType.String),
-	orders.AddCell("SalesAssoc", DataType.String),
-	orders.AddCell("Delivered", DataType.String));
+// Add column titles
+orders.AddRow()
+	.AddCell("OrderId", DataType.String)
+	.AddCell("Item", DataType.String)
+	.AddCell("Units", DataType.String)
+	.AddCell("Price", DataType.String)
+	.AddCell("OrderDate", DataType.String)
+	.AddCell("SalesAssoc", DataType.String)
+	.AddCell("Delivered", DataType.String);
 
+// Add data
 foreach (var o in Orders)
 {
-	orders.AddRow(
-		orders.AddCell(o.OrderId, DataType.Number),
-		orders.AddCell(o.Item, DataType.String),
-		orders.AddCell(o.Units, DataType.Number),
-		orders.AddCell(o.Price, DataType.Currency),
-		orders.AddCell(o.OrderDate, DataType.LongDate),
-		orders.AddCell(o.SalesAssociate, DataType.String),
-		orders.AddCell(o.Delivered, DataType.Boolean));
+	orders.AddRow()
+		.AddCell(o.OrderId, DataType.Number)
+		.AddCell(o.Item, DataType.String)
+		.AddCell(o.Units, DataType.Number)
+		.AddCell(o.Price, DataType.Currency)
+		.AddCell(o.OrderDate, DataType.LongDate)
+		.AddCell(o.SalesAssociate, DataType.String)
+		.AddCell(o.Delivered, DataType.Boolean);
 }
 
-inventory.AddRow(
-	inventory.AddCell("ItemId", DataType.String),
-	inventory.AddCell("Item", DataType.String),
-	inventory.AddCell("Number", DataType.String),
-	inventory.AddCell("Price", DataType.String));
+// Add column titles
+inventory.AddRow()
+	.AddCell("ItemId", DataType.String)
+	.AddCell("Item", DataType.String)
+	.AddCell("Number", DataType.String)
+	.AddCell("Price", DataType.String);
 
+// Add data
 foreach (var i in Inventory)
 {
-	inventory.AddRow(
-		inventory.AddCell(i.ItemId, DataType.Number),
-		inventory.AddCell(i.Item, DataType.String),
-		inventory.AddCell(i.Number, DataType.Number),
-		inventory.AddCell(i.Price, DataType.Currency));
+	inventory.AddRow()
+		.AddCell(i.ItemId, DataType.Number)
+		.AddCell(i.Item, DataType.String)
+		.AddCell(i.Number, DataType.Number)
+		.AddCell(i.Price, DataType.Currency);
 }
 
 // Optional - Add a tab color in RGB
@@ -138,41 +141,44 @@ workbook.FontSize = 11;
 var orders = workbook.AddWorksheet("Orders");
 var inventory = workbook.AddWorksheet("Inventory");
 
-// Add some data to the worksheets
-orders.AddRow(
-	orders.AddCell("OrderId", DataType.String),
-	orders.AddCell("Item", DataType.String),
-	orders.AddCell("Units", DataType.String),
-	orders.AddCell("Price", DataType.String),
-	orders.AddCell("OrderDate", DataType.String),
-	orders.AddCell("SalesAssoc", DataType.String),
-	orders.AddCell("Delivered", DataType.String));
+// Add column titles
+orders.AddRow()
+	.AddCell("OrderId", DataType.String)
+	.AddCell("Item", DataType.String)
+	.AddCell("Units", DataType.String)
+	.AddCell("Price", DataType.String)
+	.AddCell("OrderDate", DataType.String)
+	.AddCell("SalesAssoc", DataType.String)
+	.AddCell("Delivered", DataType.String);
 
+// Add data
 foreach (var o in Orders)
 {
-	orders.AddRow(
-		orders.AddCell(o.OrderId, DataType.Number),
-		orders.AddCell(o.Item, DataType.String),
-		orders.AddCell(o.Units, DataType.Number),
-		orders.AddCell(o.Price, DataType.Currency),
-		orders.AddCell(o.OrderDate, DataType.LongDate),
-		orders.AddCell(o.SalesAssociate, DataType.String),
-		orders.AddCell(o.Delivered, DataType.Boolean));
+	orders.AddRow()
+		.AddCell(o.OrderId, DataType.Number)
+		.AddCell(o.Item, DataType.String)
+		.AddCell(o.Units, DataType.Number)
+		.AddCell(o.Price, DataType.Currency)
+		.AddCell(o.OrderDate, DataType.LongDate)
+		.AddCell(o.SalesAssociate, DataType.String)
+		.AddCell(o.Delivered, DataType.Boolean);
 }
 
-inventory.AddRow(
-	inventory.AddCell("ItemId", DataType.String),
-	inventory.AddCell("Item", DataType.String),
-	inventory.AddCell("Number", DataType.String),
-	inventory.AddCell("Price", DataType.String));
+// Add column titles
+inventory.AddRow()
+	.AddCell("ItemId", DataType.String)
+	.AddCell("Item", DataType.String)
+	.AddCell("Number", DataType.String)
+	.AddCell("Price", DataType.String);
 
+// Add data
 foreach (var i in Inventory)
 {
-	inventory.AddRow(
-		inventory.AddCell(i.ItemId, DataType.Number),
-		inventory.AddCell(i.Item, DataType.String),
-		inventory.AddCell(i.Number, DataType.Number),
-		inventory.AddCell(i.Price, DataType.Currency));
+	inventory.AddRow()
+		.AddCell(i.ItemId, DataType.Number)
+		.AddCell(i.Item, DataType.String)
+		.AddCell(i.Number, DataType.Number)
+		.AddCell(i.Price, DataType.Currency);
 }
 
 // Optional - Format the tab color in Hexadecimal
