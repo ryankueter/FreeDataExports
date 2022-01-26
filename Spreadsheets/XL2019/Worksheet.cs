@@ -18,9 +18,9 @@ namespace FreeDataExports.Spreadsheets.XL2019
         public Worksheet(string name)
         {
             Name = name;
-            Rows = new List<List<IDataCell>>();
+            Rows = new List<Row>();
             SharedStrings = new OrderedDictionary();
-            CurrentRow = new List<IDataCell>();
+            CurrentRow = new Row();
             _columnWidths = new List<string>();
         }
         internal int Id { get; set; } // Worksheet Id
@@ -34,18 +34,14 @@ namespace FreeDataExports.Spreadsheets.XL2019
         internal List<DataDefinition> CellFormats = new List<DataDefinition>();
 
         // Stores a list of rows
-        internal List<List<IDataCell>> Rows { get; set; }
-
-        // Stores a count of rows for better performance
-        internal int RowCount { get; set; }
+        internal List<Row> Rows { get; set; }
         
         // Stores the current row being loaded
-        internal List<IDataCell> CurrentRow { get; set; }
+        internal Row CurrentRow { get; set; }
         public IDataWorksheet AddRow()
         {
-            CurrentRow = new List<IDataCell>();
+            CurrentRow = new Row();
             Rows.Add(CurrentRow);
-            RowCount++;
             return this;
         }
 
@@ -153,10 +149,10 @@ namespace FreeDataExports.Spreadsheets.XL2019
         // Gets the cell ranges
         private XElement GetDimension()
         {
-            if (RowCount > 0)
+            if (Rows.Count > 0)
             {
                 int width = GetColumnCount();
-                int depth = RowCount;
+                int depth = Rows.Count;
                 string columnRow = Utilities.GetIndex(width) + depth.ToString();
 
                 if (String.IsNullOrEmpty(columnRow) == false)
@@ -174,7 +170,7 @@ namespace FreeDataExports.Spreadsheets.XL2019
         /// <returns></returns>
         private XElement GetSheetData()
         {
-            int depth = RowCount;
+            int depth = Rows.Count;
             if (depth == 0)
             {
                 return new XElement("sheetData");
@@ -193,12 +189,12 @@ namespace FreeDataExports.Spreadsheets.XL2019
         /// <returns></returns>
         private XElement GetRows(XElement sheetData)
         {
-            if (RowCount > 0)
+            if (Rows.Count > 0)
             {
                 int width = GetColumnCount();
 
                 // Add the rows
-                for (int i = 0; i < RowCount; i++)
+                for (int i = 0; i < Rows.Count; i++)
                 {
                     int r = i + 1; // Current row
                     var row = new XElement("row", new XAttribute("r", r), new XAttribute("spans", $"{1}:{width}"), new XAttribute(x14ac + "dyDescent", "0.25"));
@@ -243,7 +239,7 @@ namespace FreeDataExports.Spreadsheets.XL2019
         private int GetColumnHeaderCount()
         {
             int width = 0;
-            foreach (List<IDataCell> dc in Rows)
+            foreach (Row dc in Rows)
             {
                 width = dc.Count;
                 break;
@@ -254,7 +250,7 @@ namespace FreeDataExports.Spreadsheets.XL2019
         private int GetColumnCount()
         {
             int count = 0;
-            foreach (List<IDataCell> dc in Rows)
+            foreach (Row dc in Rows)
             {
                 count = dc.Count;
                 break;

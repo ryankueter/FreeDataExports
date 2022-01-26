@@ -16,26 +16,22 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
         public Worksheet(string name)
         {
             Name = name;
-            Rows = new List<List<IDataCell>>();
-            CurrentRow = new List<IDataCell>();
+            Rows = new List<Row>();
+            CurrentRow = new Row();
             _columnWidths = new List<string>();
         }
         public string Name { get; } // Worksheet name
         public string TabColor { get; set; } // Worksheet tab color
 
         // Stores a list of rows
-        internal List<List<IDataCell>> Rows { get; set; }
-
-        // Stores a count of rows for better performance
-        internal int RowCount { get; set; }
+        internal List<Row> Rows { get; set; }
 
         // Stores the current row being loaded
-        internal List<IDataCell> CurrentRow { get; set; }
+        internal Row CurrentRow { get; set; }
         public IDataWorksheet AddRow()
         {
-            CurrentRow = new List<IDataCell>();
+            CurrentRow = new Row();
             Rows.Add(CurrentRow);
-            RowCount++;
             return this;
         }
 

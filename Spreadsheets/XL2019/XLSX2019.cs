@@ -289,7 +289,7 @@ namespace FreeDataExports.Spreadsheets.XL2019
                 Worksheets[i].Id = ++worksheetId;
 
                 // Iterate the rows
-                for (int r = 0; r < Worksheets[i].RowCount; r++)
+                for (int r = 0; r < Worksheets[i].Rows.Count; r++)
                 {
                     // Iterate the cells
                     for (int c = 0; c < Worksheets[i].Rows[r].Count; c++)
@@ -527,10 +527,10 @@ namespace FreeDataExports.Spreadsheets.XL2019
             for (int i = 0; i < Worksheets.Count; i++)
             {
                 // Add the rows
-                if (Worksheets[i].RowCount > 0)
+                if (Worksheets[i].Rows.Count > 0)
                 {
                     // Iterate the rows
-                    for (int r = 0; r < Worksheets[i].RowCount; r++)
+                    for (int r = 0; r < Worksheets[i].Rows.Count; r++)
                     {
                         // Iterate the cells
                         for (int c = 0; c < Worksheets[i].Rows[r].Count; c++)

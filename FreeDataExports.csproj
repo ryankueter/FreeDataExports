@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.23</Version>
+    <Version>1.0.24</Version>
     <Authors>Ryan A. Kueter</Authors>
     <Company>Ryan A. Kueter</Company>
     <Description>A .NET library that allows you to export your data to a spreadsheet, including .xlsx (2019), .ods (1.3), and .csv files.</Description>
@@ -11,10 +11,10 @@
     <PackageIcon>Icon.jpg</PackageIcon>
     <PackageIconUrl />
     <RepositoryUrl>https://github.com/ryankueter/FreeDataExports</RepositoryUrl>
-    <PackageReleaseNotes>FreeDataExports now includes a method extension syntax for faster building.</PackageReleaseNotes>
+    <PackageReleaseNotes>Minor code optimizations.</PackageReleaseNotes>
     <PackageTags>C#;Spreadsheets</PackageTags>
-    <AssemblyVersion>1.0.23.0</AssemblyVersion>
-    <FileVersion>1.0.23.0</FileVersion>
+    <AssemblyVersion>1.0.24.0</AssemblyVersion>
+    <FileVersion>1.0.24.0</FileVersion>
     <Copyright>Ryan A. Kueter</Copyright>
     <PackageProjectUrl>https://github.com/ryankueter/FreeDataExports</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
