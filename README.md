@@ -1,14 +1,14 @@
 # Free Data Exports (.NET)
 
 Author: Ryan Kueter  
-Updated: January, 2022
+Updated: Febrary, 2022
 
 ## About
 
 **Free Data Exports** is a free .NET library, available from the [NuGet Package Manager](https://www.nuget.org/packages/FreeDataExports), that provides a simple and quick way to export data to a spreadsheet.  
 
 ##### Supported file types:
-- Office Open XML Spreadsheet (**.xlsx**) v2019-2021
+- Office Open XML Spreadsheet (**.xlsx**) v2019
 - Open Document File (ODF) Spreadsheet (**.ods**) v1.3
 - Comma-separated Values (**.csv**)
 
