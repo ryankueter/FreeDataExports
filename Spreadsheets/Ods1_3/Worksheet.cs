@@ -3,6 +3,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
 
@@ -50,10 +51,7 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
         /// <param name="columnWidths">Column widths</param>
         public void ColumnWidths(params string[] columnWidths)
         {
-            for (int i = 0; i < columnWidths.Length; i++)
-            {
-                _columnWidths.Add(columnWidths[i]);
-            }
+            _columnWidths.AddRange(columnWidths);
         }
 
         internal List<string> GetColumnWidths()

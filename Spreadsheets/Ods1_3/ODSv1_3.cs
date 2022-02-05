@@ -161,99 +161,70 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
                     archive.CreateEntry("Thumbnails/");
 
                     // Create settings.xml
-                    var _settings = archive.CreateEntry("settings.xml");
-                    using (var entryStream = _settings.Open())
-                    {
-                        var s = new XmlWriterSettings();
-                        s.Encoding = new UTF8Encoding(false);
-                        using (XmlWriter writer = XmlWriter.Create(entryStream, s))
-                        {
-                            var doc = settings();
-                            doc.WriteTo(writer);
-                        }
-                    }
+                    AddEntry(archive, "settings.xml", settings());
 
                     // Create styles.xml
-                    var _styles = archive.CreateEntry("styles.xml");
-                    using (var entryStream = _styles.Open())
-                    {
-                        var s = new XmlWriterSettings();
-                        s.Encoding = new UTF8Encoding(false);
-                        using (XmlWriter writer = XmlWriter.Create(entryStream, s))
-                        {
-                            var doc = styles();
-                            doc.WriteTo(writer);
-                        }
-                    }
+                    AddEntry(archive, "styles.xml", styles());
 
                     // Create mimetype
-                    var _mimetype = archive.CreateEntry("mimetype");
-                    using (var entryStream = _mimetype.Open())
-                    {
-                        var utf8 = new UTF8Encoding(false);
-                        using (var writer = new StreamWriter(entryStream, utf8))
-                        {
-                            writer.Write("application/vnd.oasis.opendocument.spreadsheet");
-                        }
-                    }
+                    AddMimeType(archive, "application/vnd.oasis.opendocument.spreadsheet");
 
                     // Create meta.xml
-                    var _meta = archive.CreateEntry("meta.xml");
-                    using (var entryStream = _meta.Open())
-                    {
-                        var s = new XmlWriterSettings();
-                        s.Encoding = new UTF8Encoding(false);
-                        using (XmlWriter writer = XmlWriter.Create(entryStream, s))
-                        {
-                            var doc = meta();
-                            doc.WriteTo(writer);
-                        }
-                    }
+                    AddEntry(archive, "meta.xml", meta());
 
                     // Create manifest.rdf
-                    var _manifest_rdf = archive.CreateEntry("manifest.rdf");
-                    using (var entryStream = _manifest_rdf.Open())
-                    {
-                        var s = new XmlWriterSettings();
-                        s.Encoding = new UTF8Encoding(false);
-                        using (XmlWriter writer = XmlWriter.Create(entryStream, s))
-                        {
-                            var doc = manifest_rdf();
-                            doc.WriteTo(writer);
-                        }
-                    }
+                    AddEntry(archive, "manifest.rdf", manifest_rdf());
 
                     // Create content.xml
-                    var _content = archive.CreateEntry("content.xml");
-                    using (var entryStream = _content.Open())
-                    {
-                        var s = new XmlWriterSettings();
-                        s.Encoding = new UTF8Encoding(false);
-                        using (XmlWriter writer = XmlWriter.Create(entryStream, s))
-                        {
-                            var doc = content();
-                            doc.WriteTo(writer);
-                        }
-                    }
+                    AddEntry(archive, "content.xml", content());
 
                     // Create META-INF_manifest.xml
-                    var _manifest = archive.CreateEntry("META-INF/manifest.xml");
-                    using (var entryStream = _manifest.Open())
-                    {
-                        var s = new XmlWriterSettings();
-                        s.Encoding = new UTF8Encoding(false);
-                        using (XmlWriter writer = XmlWriter.Create(entryStream, s))
-                        {
-                            var doc = meta_inf_manifest();
-                            doc.WriteTo(writer);
-                        }
-                    }
+                    AddEntry(archive, "META-INF/manifest.xml", meta_inf_manifest());
                 }
 
                 bytes = memoryStream.ToArray();
             }
 
             return bytes;
+        }
+
+        /// <summary>
+        /// Adds an entry to the zip archive
+        /// </summary>
+        /// <param name="archive">The archive</param>
+        /// <param name="e">Entry path</param>
+        /// <param name="x">Document to insert</param>
+        private void AddEntry(ZipArchive archive, string e, XDocument x)
+        {
+            var entry = archive.CreateEntry(e);
+            using (var entryStream = entry.Open())
+            {
+                var s = new XmlWriterSettings();
+                s.Encoding = new UTF8Encoding(false);
+                using (XmlWriter writer = XmlWriter.Create(entryStream, s))
+                {
+                    var doc = x;
+                    doc.WriteTo(writer);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds a mime type to the zip archive
+        /// </summary>
+        /// <param name="archive">The archive</param>
+        /// <param name="e">Entry</param>
+        private void AddMimeType(ZipArchive archive, string e)
+        {
+            var entry = archive.CreateEntry("mimetype");
+            using (var entryStream = entry.Open())
+            {
+                var utf8 = new UTF8Encoding(false);
+                using (var writer = new StreamWriter(entryStream, utf8))
+                {
+                    writer.Write(e);
+                }
+            }
         }
 
         private int CellCount { get; set; } // Stores the cell count for use in the document
