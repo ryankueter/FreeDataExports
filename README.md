@@ -1,7 +1,7 @@
 # Free Data Exports (.NET)
 
 Author: Ryan Kueter  
-Updated: Febrary, 2022
+Updated: August, 2022
 
 ## About
 

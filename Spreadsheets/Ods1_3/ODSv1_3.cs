@@ -194,7 +194,7 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
         /// <param name="archive">The archive</param>
         /// <param name="e">Entry path</param>
         /// <param name="x">Document to insert</param>
-        private void AddEntry(ZipArchive archive, string e, XDocument x)
+        private void AddEntry(ZipArchive archive, string e, XDocument doc)
         {
             var entry = archive.CreateEntry(e);
             using (var entryStream = entry.Open())
@@ -202,10 +202,7 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
                 var s = new XmlWriterSettings();
                 s.Encoding = new UTF8Encoding(false);
                 using (XmlWriter writer = XmlWriter.Create(entryStream, s))
-                {
-                    var doc = x;
                     doc.WriteTo(writer);
-                }
             }
         }
 

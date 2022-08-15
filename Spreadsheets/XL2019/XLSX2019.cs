@@ -146,7 +146,7 @@ namespace FreeDataExports.Spreadsheets.XL2019
         /// <param name="archive">The archive</param>
         /// <param name="e">Entry path</param>
         /// <param name="x">Document to insert</param>
-        private void AddEntry(ZipArchive archive, string e, XDocument x)
+        private void AddEntry(ZipArchive archive, string e, XDocument doc)
         {
             var entry = archive.CreateEntry(e);
             using (var entryStream = entry.Open())
@@ -154,7 +154,6 @@ namespace FreeDataExports.Spreadsheets.XL2019
                 using (var writer = new XmlTextWriter(entryStream, System.Text.Encoding.UTF8))
                 {
                     writer.Formatting = Formatting.Indented;
-                    var doc = x;
                     doc.WriteTo(writer);
                 }
             }
