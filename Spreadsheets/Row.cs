@@ -7,5 +7,5 @@ using System.Collections.Generic;
 
 namespace FreeDataExports.Spreadsheets
 {
-    internal class Row : List<IDataCell> { }
+    internal sealed class Row : List<IDataCell> { }
 }

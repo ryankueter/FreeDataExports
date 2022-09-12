@@ -9,7 +9,7 @@ using FreeDataExports.Spreadsheets.Ods1_3;
 
 namespace FreeDataExports
 {
-    public class DataExport : IDataExport
+    public sealed class DataExport : IDataExport
     {
         public XLSX2019 CreateXLSX2019()
         {

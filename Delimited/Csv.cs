@@ -13,7 +13,7 @@ namespace FreeDataExports.Delimited
     /// <summary>
     /// The Csv class
     /// </summary>
-    public class Csv : IDataDelimited
+    public sealed class Csv : IDataDelimited
     {
         public Csv()
         {

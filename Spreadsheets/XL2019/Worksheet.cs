@@ -13,7 +13,7 @@ namespace FreeDataExports.Spreadsheets.XL2019
     /// <summary>
     /// The worksheet class
     /// </summary>
-    internal class Worksheet : IDataWorksheet
+    internal sealed class Worksheet : IDataWorksheet
     {
         public Worksheet(string name)
         {

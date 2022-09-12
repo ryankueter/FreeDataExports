@@ -8,7 +8,7 @@
 /// </summary>
 namespace FreeDataExports.Spreadsheets.XL2019
 {
-    internal class DataDefinition
+    internal sealed class DataDefinition
     {
         internal int index { get; set; }
         internal int type { get; set; }

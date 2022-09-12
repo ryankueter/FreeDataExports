@@ -7,7 +7,7 @@ using System;
 
 namespace FreeDataExports.Spreadsheets.XL2019
 {
-    internal class Cell : IDataCell
+    internal sealed class Cell : IDataCell
     {
         public object Value { get; set; }
         public string FormattedValue { get; set; }

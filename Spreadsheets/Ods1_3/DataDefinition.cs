@@ -10,7 +10,7 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
     /// <summary>
     /// Stores the data definition for a type.
     /// </summary>
-    internal class DataDefinition
+    internal sealed class DataDefinition
     {
         internal int Index { get; set; }
         internal string Name { get; set; }

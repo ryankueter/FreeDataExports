@@ -12,7 +12,7 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
     /// This can also be used to handle data type
     /// errors. 
     /// </summary>
-    internal class Cell : IDataCell
+    internal sealed class Cell : IDataCell
     {
         public object Value { get; set; } // The raw value
         public string FormattedValue { get; set; } // The final value

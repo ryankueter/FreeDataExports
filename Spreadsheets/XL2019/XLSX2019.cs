@@ -19,7 +19,7 @@ namespace FreeDataExports.Spreadsheets.XL2019
     /// <summary>
     /// The xlsx class
     /// </summary>
-    public class XLSX2019 : IDataWorkbook
+    public sealed class XLSX2019 : IDataWorkbook
     {
         public XLSX2019()
         {

@@ -12,7 +12,7 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
     /// <summary>
     /// The worksheet class
     /// </summary>
-    internal class Worksheet : IDataWorksheet
+    internal sealed class Worksheet : IDataWorksheet
     {
         public Worksheet(string name)
         {

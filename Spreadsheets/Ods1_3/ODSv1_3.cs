@@ -17,7 +17,7 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
     /// <summary>
     /// The main class
     /// </summary>
-    public class ODSv1_3 : IDataWorkbook
+    public sealed class ODSv1_3 : IDataWorkbook
     {
         public ODSv1_3()
         {
