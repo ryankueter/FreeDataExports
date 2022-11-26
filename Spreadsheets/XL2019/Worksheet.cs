@@ -7,6 +7,7 @@ using System;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Runtime.InteropServices;
 
 namespace FreeDataExports.Spreadsheets.XL2019
 {
@@ -190,6 +191,47 @@ namespace FreeDataExports.Spreadsheets.XL2019
             {
                 int width = GetColumnCount();
 
+#if NET6_0_OR_GREATER
+                // Add the rows
+                var rows = CollectionsMarshal.AsSpan(Rows);
+                for (int i = 0; i < rows.Length; i++)
+                {
+                    int r = i + 1; // Current row
+                    var row = new XElement("row", new XAttribute("r", r), new XAttribute("spans", $"{1}:{width}"), new XAttribute(x14ac + "dyDescent", "0.25"));
+
+                    // Iterate the cells
+                    for (int c = 0; c < rows[i].Count; c++)
+                    {
+                        int col = c + 1;
+
+                        // Strings, numbers, and booleans are different from other datatypes
+                        if (rows[i][c].DataType == DataType.String)
+                        {
+                            row.Add(new XElement("c", new XAttribute("r", $"{Utilities.GetIndex(col)}{r.ToString()}"), new XAttribute("t", "s"), new XElement("v", SharedStrings[rows[i][c].Value])));
+                        }
+                        else if (rows[i][c].DataType == DataType.Number)
+                        {
+                            row.Add(new XElement("c", new XAttribute("r", $"{Utilities.GetIndex(col)}{r.ToString()}"), new XElement("v", rows[i][c].Value)));
+                        }
+                        if (rows[i][c].DataType == DataType.Boolean)
+                        {
+                            row.Add(new XElement("c", new XAttribute("r", $"{Utilities.GetIndex(col)}{r.ToString()}"), new XAttribute("t", "b"), new XElement("v", rows[i][c].Value)));
+                        }
+                        else
+                        {
+                            for (int n = 0; n < CellFormats.Count; n++)
+                            {
+                                if (CellFormats[n].type == (int)rows[i][c].DataType)
+                                {
+                                    row.Add(new XElement("c", new XAttribute("r", $"{Utilities.GetIndex(col)}{r.ToString()}"), new XAttribute("s", CellFormats[n].index.ToString()), new XElement("v", rows[i][c].Value)));
+                                }
+                            }
+                        }
+                    }
+
+                    sheetData.Add(row);
+                }
+#elif NETSTANDARD2_0
                 // Add the rows
                 for (int i = 0; i < Rows.Count; i++)
                 {
@@ -228,6 +270,8 @@ namespace FreeDataExports.Spreadsheets.XL2019
 
                     sheetData.Add(row);
                 }
+#endif
+
             }
 
             return sheetData;

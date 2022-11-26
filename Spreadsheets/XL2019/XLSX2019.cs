@@ -13,6 +13,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Threading.Tasks;
 using System.Collections.Specialized;
+using System.Runtime.InteropServices;
 
 namespace FreeDataExports.Spreadsheets.XL2019
 {
@@ -212,6 +213,44 @@ namespace FreeDataExports.Spreadsheets.XL2019
             int worksheetId = 0;
             int cellindex = 0;
 
+#if NET6_0_OR_GREATER
+            // Iterate the worksheets
+            var sheets = CollectionsMarshal.AsSpan(Worksheets);
+            for (int i = 0; i < sheets.Length; i++)
+            {
+                sheets[i].Id = ++worksheetId;
+
+                // Iterate the rows
+                for (int r = 0; r < sheets[i].Rows.Count; r++)
+                {
+                    // Iterate the cells
+                    for (int c = 0; c < sheets[i].Rows[r].Count; c++)
+                    {
+                        // Iterate the format codes
+                        for (int f = 0; f < FormatCodes.Count; f++)
+                        {
+                            var dtype = (int)sheets[i].Rows[r][c].DataType;
+                            if (dtype == FormatCodes[f].type)
+                            {
+                                if (CellFormats.Contains(FormatCodes[f]) == false)
+                                {
+                                    FormatCodes[f].index = ++cellindex;
+                                    CellFormats.Add(FormatCodes[f]);
+                                }
+                            }
+                        }
+
+                        if (String.IsNullOrEmpty(sheets[i].Rows[r][c].Errors) == false)
+                        {
+                            // Since the index starts at 0, we need to add 1
+                            string msg = $"Error on '{sheets[i].Name}' in cell {Utilities.GetIndex(c + 1)}{r + 1}: {sheets[i].Rows[r][c].Errors}";
+                            Errors.Add(msg);
+                        }
+                    }
+                }
+                sheets[i].CellFormats = CellFormats;
+            }
+#elif NETSTANDARD2_0
             // Iterate the worksheets
             for (int i = 0; i < Worksheets.Count; i++)
             {
@@ -247,6 +286,7 @@ namespace FreeDataExports.Spreadsheets.XL2019
                 }
                 Worksheets[i].CellFormats = CellFormats;
             }
+#endif
 
             if (AddErrors == true)
             {
@@ -452,6 +492,39 @@ namespace FreeDataExports.Spreadsheets.XL2019
             int Count = 0;
             int uniqueCount = 0;
 
+#if NET6_0_OR_GREATER
+            // Iterate the worksheets
+            var sheets = CollectionsMarshal.AsSpan(Worksheets);
+            for (int i = 0; i < sheets.Length; i++)
+            {
+                // Add the rows
+                if (sheets[i].Rows.Count > 0)
+                {
+                    // Iterate the rows
+                    for (int r = 0; r < sheets[i].Rows.Count; r++)
+                    {
+                        // Iterate the cells
+                        for (int c = 0; c < sheets[i].Rows[r].Count; c++)
+                        {
+                            if (sheets[i].Rows[r][c].DataType == DataType.String)
+                            {
+                                if (SharedStrings.Contains(sheets[i].Rows[r][c].Value) == false)
+                                {
+                                    // Add it to the list for tracking purposes
+                                    SharedStrings.Add(sheets[i].Rows[r][c].Value, uniqueCount);
+                                    uniqueCount++;
+                                    Count++;
+                                }
+                                else
+                                {
+                                    Count++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+#elif NETSTANDARD2_0
             // Iterate the worksheets
             for (int i = 0; i < Worksheets.Count; i++)
             {
@@ -482,6 +555,8 @@ namespace FreeDataExports.Spreadsheets.XL2019
                     }
                 }
             }
+#endif
+
 
             var sst = new XElement("sst");
             sst.Add(new XAttribute("xmlns", xmlns));
@@ -489,22 +564,14 @@ namespace FreeDataExports.Spreadsheets.XL2019
             sst.Add(new XAttribute("uniqueCount", uniqueCount));
 
             ICollection KeyCollection = SharedStrings.Keys;
-            // ICollection ValuesCollection = SharedStrings.Values;
 
             String[] keys = new String[SharedStrings.Count];
-            // String[] values = new String[SharedStrings.Count];
-
             KeyCollection.CopyTo(keys, 0);
-            // ValuesCollection.CopyTo(values, 0);
 
             for (int i = 0; i < SharedStrings.Count; i++)
             {
                 sst.Add(new XElement("si", new XElement("t", keys[i])));
             }
-            //foreach (DictionaryEntry s in SharedStrings)
-            //{
-            //    sst.Add(new XElement("si", new XElement("t", s.Key)));
-            //}
 
             return new XDocument(new XDeclaration("1.0", "UTF-8", "yes"), sst);
         }
