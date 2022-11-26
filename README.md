@@ -13,11 +13,11 @@ Updated: November, 2022
 - Comma-separated Values (**.csv**)
 
 ##### Targets:
-- .NET 6
+- .NET 6, .NET 7
 - .NET Standard 2.0
 
 ##### Version Support:
-- .NET 5, .NET 6
+- .NET 6, .NET 7
 - Core 2 - 3.1
 - Framework 4.6.1 - 4.8
 - Mono 5.4, 6.4

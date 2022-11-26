@@ -231,7 +231,7 @@ namespace FreeDataExports.Spreadsheets.XL2019
 
                     sheetData.Add(row);
                 }
-#elif NETSTANDARD2_0
+#elif NETSTANDARD2_0_OR_GREATER
                 // Add the rows
                 for (int i = 0; i < Rows.Count; i++)
                 {

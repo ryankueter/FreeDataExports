@@ -253,7 +253,7 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
                     }
                 }
             }
-#elif NETSTANDARD2_0
+#elif NETSTANDARD2_0_OR_GREATER
             // Iterate the worksheets
             for (int i = 0; i < Worksheets.Count; i++)
             {
@@ -937,7 +937,7 @@ namespace FreeDataExports.Spreadsheets.Ods1_3
                     spreadsheet.Add(sheet_table);
                     IsFirstRun = false;
                 }
-#elif NETSTANDARD2_0
+#elif NETSTANDARD2_0_OR_GREATER
                 // Iterate the worksheets
                 for (int i = 0; i < Worksheets.Count; i++)
                 {

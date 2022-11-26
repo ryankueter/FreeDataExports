@@ -250,7 +250,7 @@ namespace FreeDataExports.Spreadsheets.XL2019
                 }
                 sheets[i].CellFormats = CellFormats;
             }
-#elif NETSTANDARD2_0
+#elif NETSTANDARD2_0_OR_GREATER
             // Iterate the worksheets
             for (int i = 0; i < Worksheets.Count; i++)
             {
@@ -524,7 +524,7 @@ namespace FreeDataExports.Spreadsheets.XL2019
                     }
                 }
             }
-#elif NETSTANDARD2_0
+#elif NETSTANDARD2_0_OR_GREATER
             // Iterate the worksheets
             for (int i = 0; i < Worksheets.Count; i++)
             {
