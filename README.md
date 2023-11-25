@@ -1,7 +1,7 @@
 # Free Data Exports (.NET)
 
 Author: Ryan Kueter  
-Updated: November, 2022
+Updated: November, 2023
 
 ## About
 
@@ -13,7 +13,7 @@ Updated: November, 2022
 - Comma-separated Values (**.csv**)
 
 ##### Targets:
-- .NET 6, .NET 7
+- .NET 6, .NET 7, .NET 8
 - .NET Standard 2.0
 
 ##### Version Support:
