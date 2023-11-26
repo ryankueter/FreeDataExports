@@ -12,12 +12,9 @@ Updated: November, 2023
 - Open Document File (ODF) Spreadsheet (**.ods**) v1.3
 - Comma-separated Values (**.csv**)
 
-##### Targets:
+##### Version Support:
 - .NET 6, .NET 7, .NET 8
 - .NET Standard 2.0
-
-##### Version Support:
-- .NET 6, .NET 7
 - Core 2 - 3.1
 - Framework 4.6.1 - 4.8
 - Mono 5.4, 6.4
