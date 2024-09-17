@@ -1,7 +1,7 @@
 # Free Data Exports (.NET)
 
 Author: Ryan Kueter  
-Updated: November, 2023
+Updated: September, 2024
 
 ## About
 
@@ -24,6 +24,17 @@ Updated: November, 2023
 - Unity 2018.1
 - https://dotnet.microsoft.com/platform/dotnet-standard#versions  
    
+## Initialization
+
+Free Data Exports provides a few interfaces that enable the developer to switch between an (.xlsx) file and an (.ods) file. This can also reduce code duplication when selecting between the two and enable dependency injection. However, be aware that the values for tab color or column width may be different between the different formats. 
+```csharp
+// Namespace
+using FreeDataExports;
+
+// Create a new workbook
+IDataWorkbook workbook = new DataExport().CreateXLSX2019();
+IDataWorkbook workbook = new DataExport().CreateODSv1_3();
+```
 
 ## How to Create an XLSX (2019) File
 
