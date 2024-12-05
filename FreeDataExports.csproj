@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net6.0;net7.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Ryan A. Kueter</Authors>
     <Company>Ryan A. Kueter</Company>
@@ -13,9 +13,9 @@
     <RepositoryUrl>https://github.com/ryankueter/FreeDataExports</RepositoryUrl>
     <PackageReleaseNotes>Updated documentation.</PackageReleaseNotes>
     <PackageTags>C#;Spreadsheets</PackageTags>
-	<Version>1.1.10</Version>
-    <AssemblyVersion>1.1.10.0</AssemblyVersion>
-    <FileVersion>1.1.10.0</FileVersion>
+	<Version>1.1.12</Version>
+    <AssemblyVersion>1.1.12.0</AssemblyVersion>
+    <FileVersion>1.1.12.0</FileVersion>
     <PackageProjectUrl>https://github.com/ryankueter/FreeDataExports</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryType>Git</RepositoryType>

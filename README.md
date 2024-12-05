@@ -1,7 +1,7 @@
 # Free Data Exports (.NET)
 
 Author: Ryan Kueter  
-Updated: September, 2024
+Updated: December, 2024
 
 ## About
 
@@ -13,7 +13,7 @@ Updated: September, 2024
 - Comma-separated Values (**.csv**)
 
 ##### Version Support:
-- .NET 6, .NET 7, .NET 8
+- .NET 6 - .NET 9
 - .NET Standard 2.0
 - Core 2 - 3.1
 - Framework 4.6.1 - 4.8
@@ -26,7 +26,7 @@ Updated: September, 2024
    
 ## Initialization
 
-Free Data Exports provides a few interfaces that enable the developer to switch between an (.xlsx) file and an (.ods) file. This can also reduce code duplication when selecting between the two and enable dependency injection. However, be aware that the values for tab color or column width may be different between the different formats. 
+Free Data Exports provides an interface that allows the developer to reduce code duplication when creating a spreadsheet in both formats. However, be aware that the values for tab color or column width are different when creating an .xlsx file or an .ods file. 
 ```csharp
 // Namespace
 using FreeDataExports;
