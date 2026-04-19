@@ -11,11 +11,11 @@
     <PackageIcon>Icon.jpg</PackageIcon>
     <PackageIconUrl />
     <RepositoryUrl>https://github.com/ryankueter/FreeDataExports</RepositoryUrl>
-    <PackageReleaseNotes>Added a .NET 10 target.</PackageReleaseNotes>
+    <PackageReleaseNotes>This package is being replaced by FreeDataExportsv2.</PackageReleaseNotes>
     <PackageTags>C#;Spreadsheets</PackageTags>
-	<Version>1.1.13</Version>
-    <AssemblyVersion>1.1.13.0</AssemblyVersion>
-    <FileVersion>1.1.13.0</FileVersion>
+	<Version>1.1.14</Version>
+    <AssemblyVersion>1.1.14</AssemblyVersion>
+    <FileVersion>1.1.14</FileVersion>
     <PackageProjectUrl>https://github.com/ryankueter/FreeDataExports</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryType>Git</RepositoryType>
