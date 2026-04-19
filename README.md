@@ -1,5 +1,7 @@
 # FreeDataExports
 
+**Author:** Ryan Kueter &nbsp;|&nbsp; **Updated:** April 2026
+
 > **⚠️ Note:** FreeDataExports is being replaced by [FreeDataExportsv2](https://github.com/ryankueter/FreeDataExportsv2)
 > and will no longer be maintained. New projects should use FreeDataExportsv2, which offers a
 > cleaner API, richer formatting, charts, images, Excel tables, and identical XLSX/ODS output
